@@ -1,8 +1,8 @@
 {
-    "name": "Eige tu Propia Aventura en Elm",
+    "name": "Choose your own adventure in Elm",
     "repository": "https://github.com/JuanFdS/eligeTuPropiaAventura",
     "env": {
-	     "ELM_COMPILE": "elm make --output elm.js src/EligeTuPropiaAventura.elm"
+	     "ELM_COMPILE": "elm make --output elm.js src/GoOnAnAdventure.elm"
     },
     "buildpacks": [
         {

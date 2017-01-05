@@ -1,22 +1,9 @@
-module EligeTuPropiaAventura exposing (..)
+module GoOnAnAdventure exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-
-type alias Read = { story : Story, chapter : Chapter }
-
-type Story = Story { title : String, chapters: List Chapter }
-
-type Chapter = Chapter { title : String, body : String, continuations: List Continuation }
-
-type Continuation = Continuation { body : String, chapter: () -> Chapter }
-
-story (Story {title, chapters}) = {title = title, chapters = chapters}
-
-chapter (Chapter {title, body, continuations}) = {title = title, body = body, continuations = continuations}
-
-continuation (Continuation {body, chapter}) = {body = body, chapter = chapter}
+import Read exposing (..)
 
 main = Html.beginnerProgram { model = model , view = view , update = update }
 
@@ -32,31 +19,31 @@ aStory = Story {title = "The most important title", chapters = []}
 model : Read
 model = { story = aStory, chapter = aChapter }
 
-viewContinuation : Continuation -> Html Msg
-viewContinuation (Continuation {body, chapter}) = div [] [button [onClick (GoToChapter (chapter()))] [text body]]
+viewContinuation : Continuation -> Html Action
+viewContinuation (Continuation {body, chapter}) = div [] [button [onClick <| GoToChapter <| chapter ()] [text body]]
 
-viewChapter : Chapter -> Html Msg
+viewChapter : Chapter -> Html Action
 viewChapter (Chapter {title, body, continuations}) = div [] [
                                                               h2 [] [text title],
                                                               h3 [] [text body],
                                                               div [] (List.map viewContinuation continuations)
                                                             ]
 
-viewStory : Story -> Html Msg
+viewStory : Story -> Html Action
 viewStory (Story {title, chapters}) = div [] [
                                               h1 [] [text title]
                                              ]
 
-viewRead : Read -> Html Msg
-viewRead read = div [] [
-                        viewStory read.story,
-                        viewChapter read.chapter
+viewRead : Read -> Html Action
+viewRead {story, chapter} = div [] [
+                        viewStory story,
+                        viewChapter chapter
                        ]
 
 view = viewRead
 
-type Msg = GoToChapter Chapter
+type Action = GoToChapter Chapter
 
-update msg read =
-  case msg of
-    GoToChapter chapter -> {read | chapter = chapter}
+update action read =
+  case action of
+    GoToChapter chapter -> { read | chapter = chapter }
