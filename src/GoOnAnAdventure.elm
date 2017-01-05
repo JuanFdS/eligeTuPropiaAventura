@@ -14,7 +14,7 @@ loopContinuation = Continuation { body = "Go over there", chapter = \_ -> Chapte
 
 aChapter = Chapter { title = "A lesser but still awesome title", body = "A sexy body", continuations = [aContinuation, alternateContinuation]}
 
-aStory = Story {title = "The most important title", chapters = []}
+aStory = {title = "The most important title", chapters = []}
 
 model : Read
 model = { story = aStory, chapter = aChapter }
@@ -30,7 +30,7 @@ viewChapter (Chapter {title, body, continuations}) = div [] [
                                                             ]
 
 viewStory : Story -> Html Action
-viewStory (Story {title, chapters}) = div [] [
+viewStory {title, chapters} = div [] [
                                               h1 [] [text title]
                                              ]
 
